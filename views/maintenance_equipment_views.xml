@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_equipment_view_form_inherit_asset" model="ir.ui.view">
+        <field name="name">maintenance.equipment.form.inherit.asset</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="account_asset_id"/>
+            </xpath>
+            <xpath expr="//field[@name='cost']" position="attributes">
+                <attribute name="readonly">account_asset_id != False</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_equipment_category_view_form_inherit_asset" model="ir.ui.view">
+        <field name="name">maintenance.equipment.category.form.inherit.asset</field>
+        <field name="model">maintenance.equipment.category</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <group string="Accounting">
+                    <label for="account_asset_category_id"/>
+                    <div class="o_row">
+                        <field name="account_asset_category_id"/>
+                        <button name="action_create_accounting_category"
+                                type="object"
+                                string="Create Accounting Category"
+                                class="btn btn-secondary"
+                                invisible="account_asset_category_id != False"
+                                help="Quickly create an Accounting Category mapping right here."/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_generate_asset" model="ir.actions.server">
+        <field name="name">Create Accounting Asset</field>
+        <field name="model_id" ref="maintenance.model_maintenance_equipment"/>
+        <field name="binding_model_id" ref="maintenance.model_maintenance_equipment"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+for record in records:
+    action = record.action_generate_asset()
+if action:
+    action_dict = action
+        </field>
+    </record>
+</odoo>

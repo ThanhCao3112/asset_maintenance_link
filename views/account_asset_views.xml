@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_asset_form_inherit_maintenance" model="ir.ui.view">
+        <field name="name">account.asset.asset.form.inherit.maintenance</field>
+        <field name="model">account.asset.asset</field>
+        <field name="inherit_id" ref="om_account_asset.view_account_asset_asset_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="equipment_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_asset_category_form_inherit_maintenance" model="ir.ui.view">
+        <field name="name">account.asset.category.form.inherit.maintenance</field>
+        <field name="model">account.asset.category</field>
+        <field name="inherit_id" ref="om_account_asset.view_account_asset_category_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <group string="Maintenance Settings">
+                    <field name="auto_create_equipment"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
